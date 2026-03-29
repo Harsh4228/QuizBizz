@@ -210,12 +210,13 @@ export default function QuizzesPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Passing Marks
+                  Passing Percentage (%)
                   <span className="text-gray-400 font-normal ml-1">(0 = no requirement)</span>
                 </label>
                 <input
                   type="number"
                   min={0}
+                  max={100}
                   value={form.passingMarks}
                   onChange={(e) => setForm({ ...form, passingMarks: Number(e.target.value) })}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"

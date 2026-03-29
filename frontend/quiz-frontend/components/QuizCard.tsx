@@ -99,7 +99,7 @@ export default function QuizCard({ quiz, isTeacher, onRefresh }: QuizCardProps) 
         <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">{quiz.questionCount} questions</span>
         <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">{quiz.timeLimit} min</span>
         {quiz.totalMarks > 0   && <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">{quiz.totalMarks} marks</span>}
-        {quiz.passingMarks > 0 && <span className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full border border-amber-100">Pass: {quiz.passingMarks}</span>}
+        {quiz.passingMarks > 0 && <span className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full border border-amber-100">Pass: {quiz.passingMarks}%</span>}
         {quiz.allowedStudentEmails.length > 0 && (
           <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-full border border-indigo-100">
             {quiz.allowedStudentEmails.length} restricted

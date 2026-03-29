@@ -13,6 +13,7 @@ public record AttemptResultDto(
     int Score,
     int MaxScore,
     double Percentage,
+    int PassingMarks,
     TimeSpan Duration,
     List<AnswerResultDto> AnswerResults
 );

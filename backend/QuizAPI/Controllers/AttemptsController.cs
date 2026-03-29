@@ -115,13 +115,14 @@ public class AttemptsController : ControllerBase
         attempt.CompletedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
 
+        var quiz = await _context.Quizzes.FindAsync(attempt.QuizId);
         var duration = attempt.CompletedAt!.Value - attempt.StartedAt;
         double percentage = attempt.MaxScore > 0
             ? Math.Round((double)totalScore / attempt.MaxScore * 100, 1)
             : 0;
 
         return Ok(new AttemptResultDto(
-            attempt.Id, totalScore, attempt.MaxScore, percentage, duration, answerResults));
+            attempt.Id, totalScore, attempt.MaxScore, percentage, quiz?.PassingMarks ?? 0, duration, answerResults));
     }
 
     [HttpGet("my")]
@@ -167,7 +168,8 @@ public class AttemptsController : ControllerBase
             ? Math.Round((double)attempt.Score / attempt.MaxScore * 100, 1)
             : 0;
 
+        var quiz = await _context.Quizzes.FindAsync(attempt.QuizId);
         return Ok(new AttemptResultDto(
-            attempt.Id, attempt.Score, attempt.MaxScore, percentage, duration, answerResults));
+            attempt.Id, attempt.Score, attempt.MaxScore, percentage, quiz?.PassingMarks ?? 0, duration, answerResults));
     }
 }

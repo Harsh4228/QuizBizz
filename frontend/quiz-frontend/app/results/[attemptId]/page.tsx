@@ -36,7 +36,8 @@ export default function ResultsPage({ params }: PageProps) {
   if (loading) return <LoadingSpinner />;
   if (!result) return null;
 
-  const isPassed = result.percentage >= 60;
+  const threshold = result.passingMarks > 0 ? result.passingMarks : 60;
+  const isPassed = result.percentage >= threshold;
   const correct = result.answerResults.filter((a) => a.isCorrect).length;
   const incorrect = result.answerResults.length - correct;
 
@@ -62,7 +63,7 @@ export default function ResultsPage({ params }: PageProps) {
           {isPassed ? "Great job — Passed!" : "Keep practicing!"}
         </p>
         <p className="text-gray-500 mt-2">
-          {result.score} / {result.maxScore} points
+          {result.score} / {result.maxScore} points &nbsp;·&nbsp; Pass: {threshold}%
         </p>
         <div className="flex justify-center gap-6 mt-4 text-sm text-gray-500">
           <span>✅ {correct} correct</span>

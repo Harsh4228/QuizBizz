@@ -8,7 +8,7 @@ public record CreateQuizDto(
     [Range(1, 180)] int TimeLimit,
     DateTime? StartTime,
     DateTime? EndTime,
-    [Range(0, 100000)] int PassingMarks,
+    [Range(0, 100)] int PassingMarks,
     List<string>? AllowedStudentEmails
 );
 
@@ -19,7 +19,7 @@ public record UpdateQuizDto(
     bool IsPublished,
     DateTime? StartTime,
     DateTime? EndTime,
-    [Range(0, 100000)] int PassingMarks,
+    [Range(0, 100)] int PassingMarks,
     List<string>? AllowedStudentEmails
 );
 

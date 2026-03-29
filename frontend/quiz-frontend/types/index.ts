@@ -127,6 +127,7 @@ export interface AttemptResult {
   score: number;
   maxScore: number;
   percentage: number;
+  passingMarks: number;
   duration: string;
   answerResults: AnswerResult[];
 }

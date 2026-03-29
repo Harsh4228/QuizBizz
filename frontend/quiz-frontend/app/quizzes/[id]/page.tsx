@@ -199,7 +199,7 @@ export default function QuizDetailPage({ params }: PageProps) {
               <span>📋 {displayQuestions.length} questions</span>
               <span>⏱️ {quiz.timeLimit} min</span>
               {quiz.totalMarks > 0 && <span>🏆 {quiz.totalMarks} marks</span>}
-              {quiz.passingMarks > 0 && <span>✅ Pass: {quiz.passingMarks}</span>}
+              {quiz.passingMarks > 0 && <span>✅ Pass: {quiz.passingMarks}%</span>}
               <span>🗓 {new Date(quiz.createdAt).toLocaleDateString()}</span>
             </div>
             {(quiz.startTime || quiz.endTime) && (
@@ -281,11 +281,11 @@ export default function QuizDetailPage({ params }: PageProps) {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Passing Marks
+                  Passing Percentage (%)
                   <span className="text-gray-400 font-normal"> (0 = no requirement)</span>
                 </label>
                 <input
-                  type="number" min={0}
+                  type="number" min={0} max={100}
                   value={editForm.passingMarks}
                   onChange={(e) => setEditForm({ ...editForm, passingMarks: Number(e.target.value) })}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"

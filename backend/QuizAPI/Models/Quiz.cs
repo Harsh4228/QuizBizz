@@ -25,7 +25,7 @@ public class Quiz
     /// <summary>When the quiz window closes (UTC). Null = no end restriction.</summary>
     public DateTime? EndTime { get; set; }
 
-    /// <summary>Minimum points to pass. 0 = no passing requirement.</summary>
+    /// <summary>Minimum percentage (0-100) required to pass. 0 = no passing requirement.</summary>
     public int PassingMarks { get; set; } = 0;
 
     /// <summary>Emails allowed to take this quiz. Empty = all students.</summary>
