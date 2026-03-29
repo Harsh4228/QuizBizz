@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# .NET build output
+bin/
+obj/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
+
+# EF migrations (keep the Migrations folder but ignore snapshots if needed)
+# backend/QuizAPI/Migrations/
+
+# Test coverage
+coverage/

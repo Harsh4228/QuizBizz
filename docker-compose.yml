@@ -1,0 +1,43 @@
+version: "3.9"
+
+# Database: Supabase (external) — no local postgres container needed.
+# Set SUPABASE_PASSWORD as an environment variable before running:
+#   $env:SUPABASE_PASSWORD = "your-password"   # PowerShell
+#   export SUPABASE_PASSWORD=your-password       # bash
+
+services:
+  # ─── .NET Backend API ─────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend/QuizAPI
+      dockerfile: Dockerfile
+    container_name: quizapp_api
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__DefaultConnection: >-
+        Host=db.pxpfcutxnentcxpnonch.supabase.co;
+        Port=5432;
+        Database=postgres;
+        Username=postgres;
+        Password=${SUPABASE_PASSWORD};
+        SSL Mode=Require;
+        Trust Server Certificate=true
+      Jwt__Key: "change-this-to-a-super-secret-key-at-least-32-chars-long!"
+    ports:
+      - "5000:5000"
+
+  # ─── Next.js Frontend ─────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend/quiz-frontend
+      dockerfile: Dockerfile
+    container_name: quizapp_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:5000
+    ports:
+      - "3000:3000"
