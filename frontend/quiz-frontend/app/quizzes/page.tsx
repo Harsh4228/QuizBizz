@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import api from "@/lib/api";
+import api, { getErrorMessage } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { Quiz, StudentUser } from "@/types";
 import QuizCard from "@/components/QuizCard";
@@ -33,6 +33,7 @@ const defaultForm = {
 export default function QuizzesPage() {
   const [quizzes, setQuizzes]         = useState<Quiz[]>([]);
   const [loading, setLoading]         = useState(true);
+  const [fetchError, setFetchError]   = useState("");
   const [showCreate, setShowCreate]   = useState(false);
   const [form, setForm]               = useState(defaultForm);
   const [creating, setCreating]       = useState(false);
@@ -52,10 +53,13 @@ export default function QuizzesPage() {
 
   const fetchQuizzes = async () => {
     setLoading(true);
+    setFetchError("");
     try {
       const res = await api.get("/api/quizzes");
       setQuizzes(res.data);
-    } catch { /* handled by interceptor */ }
+    } catch (err: unknown) {
+      setFetchError(getErrorMessage(err, "Failed to load quizzes."));
+    }
     finally { setLoading(false); }
   };
 
@@ -99,10 +103,7 @@ export default function QuizzesPage() {
       setSelectedStudents([]);
       await fetchQuizzes();
     } catch (err: unknown) {
-      alert(
-        (err as { response?: { data?: string } })?.response?.data ||
-          "Failed to create quiz."
-      );
+      alert(getErrorMessage(err, "Failed to create quiz."));
     } finally {
       setCreating(false);
     }
@@ -133,6 +134,15 @@ export default function QuizzesPage() {
   };
 
   if (loading) return <LoadingSpinner />;
+
+  if (fetchError) return (
+    <div className="max-w-6xl mx-auto px-4 py-16 text-center">
+      <p className="text-red-500 text-lg font-medium">{fetchError}</p>
+      <button onClick={fetchQuizzes} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        Retry
+      </button>
+    </div>
+  );
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">

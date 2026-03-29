@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-import api from "@/lib/api";
+import api, { getErrorMessage } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { StudentDetail } from "@/types";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -44,7 +44,7 @@ export default function StudentDetailPage() {
     if (user?.role !== "Teacher") { router.push("/dashboard"); return; }
     api.get(`/api/users/students/${id}`)
       .then((res) => setStudent(res.data))
-      .catch(() => setError("Student not found."))
+      .catch((err: unknown) => setError(getErrorMessage(err, "Student not found.")))
       .finally(() => setLoading(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized, isAuthenticated, id]);

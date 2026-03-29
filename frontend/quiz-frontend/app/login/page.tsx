@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import api from "@/lib/api";
+import api, { getErrorMessage } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
@@ -28,10 +28,7 @@ export default function LoginPage() {
       });
       router.push("/quizzes");
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: string } })?.response?.data ||
-        "Login failed. Please check your credentials.";
-      setError(msg);
+      setError(getErrorMessage(err, "Login failed. Please check your credentials."));
     } finally {
       setLoading(false);
     }

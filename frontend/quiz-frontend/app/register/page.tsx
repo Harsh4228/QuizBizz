@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import api from "@/lib/api";
+import api, { getErrorMessage } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 
 export default function RegisterPage() {
@@ -52,10 +52,7 @@ export default function RegisterPage() {
       });
       router.push("/quizzes");
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: string } })?.response?.data ||
-        "Registration failed. Please try again.";
-      setError(msg);
+      setError(getErrorMessage(err, "Registration failed. Please try again."));
     } finally {
       setLoading(false);
     }

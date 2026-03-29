@@ -3,7 +3,7 @@
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import api from "@/lib/api";
+import api, { getErrorMessage } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { QuizDetail, QuestionWithAnswer, StudentUser } from "@/types";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -83,10 +83,7 @@ export default function QuizDetailPage({ params }: PageProps) {
       });
       fetchData();
     } catch (err: unknown) {
-      alert(
-        (err as { response?: { data?: string } })?.response?.data ||
-          "Failed to add question."
-      );
+      alert(getErrorMessage(err, "Failed to add question."));
     }
   };
 
@@ -154,10 +151,7 @@ export default function QuizDetailPage({ params }: PageProps) {
       setShowEdit(false);
       fetchData();
     } catch (err: unknown) {
-      alert(
-        (err as { response?: { data?: string } })?.response?.data ||
-          "Failed to save quiz."
-      );
+      alert(getErrorMessage(err, "Failed to save quiz."));
     } finally {
       setSaving(false);
     }

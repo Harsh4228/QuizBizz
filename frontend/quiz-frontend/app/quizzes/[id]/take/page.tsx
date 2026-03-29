@@ -2,7 +2,7 @@
 
 import { use, useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import api from "@/lib/api";
+import api, { getErrorMessage } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { QuizDetail } from "@/types";
 import Timer from "@/components/Timer";
@@ -30,7 +30,7 @@ export default function TakeQuizPage({ params }: PageProps) {
       await api.post(`/api/attempts/${attemptId}/submit`, { answers: payload });
       router.push(`/results/${attemptId}`);
     } catch (err: unknown) {
-      alert((err as { response?: { data?: string } })?.response?.data || "Failed to submit attempt.");
+      alert(getErrorMessage(err, "Failed to submit attempt."));
       setSubmitting(false);
     }
   }, [attemptId, submitting, router]);
